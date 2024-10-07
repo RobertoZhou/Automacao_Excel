@@ -1,6 +1,6 @@
 import pandas as pd
 
-tabela = pd.read_excel("pasta")
+tabela = pd.read_excel("check.xlsx")
 
 nova_tabela = tabela[tabela["Conformidade"] == "Não"].copy()
 
@@ -13,5 +13,5 @@ porcentagem_nao = (num_nao / tabela.shape[0]) * 100
 # Adicionar linhas à nova_tabela com os resultados
 nova_tabela = nova_tabela._append({"Categoria": "Não", "Contagem": num_nao, "Porcentagem": porcentagem_nao}, ignore_index=True)
 
-df.to_csv('Não Conformidade.csv', index=False)
-
+# Salvar o DataFrame em um arquivo Excel
+nova_tabela.to_excel('Não Conformidade.xlsx', index=False)
