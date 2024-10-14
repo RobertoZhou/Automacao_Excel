@@ -4,7 +4,7 @@ import PySimpleGUI as sg
 # Função para criar uma planilha excel com as não conformidades
 def criarNaoConformidade(nomeFile, colunaConformidade):
     tabela = pd.read_excel(nomeFile)
-
+    # Pega todas as linhas que possuem não como resposta na coluna e faz uma copia
     nova_tabela = tabela[tabela[colunaConformidade] == "Não"].copy()
 
     # Contar o número de linhas que possuem a palavra "Não"
@@ -17,13 +17,13 @@ def criarNaoConformidade(nomeFile, colunaConformidade):
     nova_tabela = nova_tabela._append({"Categoria": "Não", "Contagem": num_nao + 1, "Porcentagem": porcentagem_nao}, ignore_index=True)
 
     # Salvar o DataFrame em um arquivo Excel
-    nova_tabela.to_excel('Não Conformidade.xlsx', index=False)
+    nova_tabela.to_excel('Não_Conformidade.xlsx', index=False)
 
 # Interface Gráfica
 # Layout
 sg.theme("Reddit")
 layout = [
-    [sg.Text("File"), sg.Input(key="arquivo", size=(20, 1)), sg.FileBrowse()],
+    [sg.Text("File"), sg.Input(key="arquivo"), sg.FileBrowse()],
     [sg.Text("Nome da Coluna Conformidade"), sg.Input(key="coluna", size=(20, 1))],
     [sg.Button("Criar Planilha")]
 ]
@@ -39,6 +39,7 @@ while True:
     if eventos == "Criar Planilha":
         if valores["coluna"]:  # Verifica se uma coluna foi digitada
             criarNaoConformidade(valores["arquivo"], valores["coluna"])
+            sg.popup("Planilha de Não Conformidade Criada!")
         else:
             sg.popup_error("Por favor, digite o nome da coluna conformidade/selecione o arquivo.")
 
